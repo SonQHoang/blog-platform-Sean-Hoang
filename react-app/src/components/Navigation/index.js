@@ -23,25 +23,23 @@ function Navigation() {
 
   return (
     <ul>
-      <li>
+      <div className="nav-container">
         <NavLink exact to="/">
-          Home
+          Home (Replace with a Generic Logo)
         </NavLink>
-      </li>
-      {sessionUser ? (
-        <li>
-          <button onClick={handleLogout}>Log Out</button>
-        </li>
-      ) : (
-        <>
+        {sessionUser ? (
           <li>
-            <button onClick={goToLogin}>Log In</button>
+            <button onClick={handleLogout}>Log Out</button>
           </li>
-          <li>
-            <button onClick={goToSignUp}>Sign Up</button>
-          </li>
-        </>
-      )}
+        ) : (
+          <>
+            <div className="access-container">
+              <button onClick={goToLogin}>Log In</button>
+              <button onClick={goToSignUp}>Sign Up</button>
+            </div>
+          </>
+        )}
+      </div>
     </ul>
   )
 }

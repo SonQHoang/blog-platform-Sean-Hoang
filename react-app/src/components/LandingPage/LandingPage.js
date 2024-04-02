@@ -5,7 +5,6 @@ const MainPage = () => {
   return (
     <>
       <div>
-        Nav Bar
         <Navigation />
       </div>
       <div>Main Content</div>
