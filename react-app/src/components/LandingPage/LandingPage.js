@@ -1,5 +1,7 @@
 import React from "react"
 import Navigation from "../Navigation"
+import Posts from "../Posts/Posts"
+import "./LandingPage.css"
 
 const MainPage = () => {
   return (
@@ -7,7 +9,9 @@ const MainPage = () => {
       <div>
         <Navigation />
       </div>
-      <div>Main Content</div>
+      <div>
+        <Posts />
+      </div>
     </>
   )
 }
