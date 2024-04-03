@@ -14,6 +14,12 @@ class User(db.Model, UserMixin):
     email = db.Column(db.String(255), nullable=False, unique=True)
     hashed_password = db.Column(db.String(255), nullable=False)
 
+    # Users has a one => many relationship with Posts, PostLikes, PostComments, Tags
+    comments = db.relationship('PostComment', back_populates='user')
+    posts = db.relationship('Post', back_populates='user')
+    likes = db.relationship('PostLike', back_populates='user')
+    tags = db.relationship('Tag', back_populates='user')
+
     @property
     def password(self):
         return self.hashed_password
