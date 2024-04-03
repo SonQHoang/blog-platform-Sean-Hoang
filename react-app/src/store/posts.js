@@ -15,7 +15,6 @@ const acCreatePost = (posts) => {
 }
 
 const acGetAllPosts = (posts) => {
-  console.log("What is my post===>", posts)
   return {
     type: GET_ALL_POSTS,
     payload: posts,
@@ -65,11 +64,12 @@ export const createPost = (postData) => async (dispatch, getState) => {
     })
     if (response.ok) {
       const post = await response.json()
+      console.log("What does my post look like====>", post)
       dispatch(acCreatePost(post))
       return post
     } else {
       const errors = await response.text()
-      throw new Error(`Failed to create tip: ${errors}`)
+      throw new Error(`Failed to create post: ${errors}`)
     }
   } catch (error) {
     console.error(error)
@@ -79,13 +79,11 @@ export const createPost = (postData) => async (dispatch, getState) => {
 export const getAllPosts = () => async (dispatch) => {
   try {
     const response = await fetch(`/api/posts/all`)
-    // console.log("What is the response===>", response)
     if (response.ok) {
       const data = await response.json()
-      // console.log("So what is my data====>", data)
       dispatch(acGetAllPosts(data))
     } else {
-      console.error("Response not ok:", response.status)
+      console.error("Unable to fetch all of your posts:", response.status)
     }
   } catch (error) {
     console.error(error)
@@ -112,7 +110,10 @@ const postReducer = (state = initialState, action) => {
     case CREATE_POST: {
       return {
         ...state,
-        allPosts: { ...state.allPosts, [action.posts.id]: action.posts },
+        allPosts: {
+          ...state.allPosts,
+          [action.payload.id]: action.payload,
+        },
       }
     }
 

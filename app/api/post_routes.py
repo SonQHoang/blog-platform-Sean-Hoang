@@ -39,7 +39,11 @@ def new_post():
 
         db.session.add(post)
         db.session.commit()
-        return jsonify(post.to_dict())
+
+        post_data = post.to_dict()
+        post_data['author'] = current_user.username
+
+        return jsonify(post_data)
     else:
         return jsonify({"errors": form.errors}), 400
 

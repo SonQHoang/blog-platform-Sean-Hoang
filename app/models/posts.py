@@ -7,7 +7,7 @@ tag_post_association = db.Table('post_tag',
 )
 
 class Post(db.Model):
-    __tablename__ = "posts"
+    __tablename__ = "posts" 
 
 
     id = db.Column(db.Integer, primary_key=True)
@@ -32,5 +32,6 @@ class Post(db.Model):
             "user_id": self.user_id,
             "title": self.title,
             "content": self.content,
-            "date_created": self.date_created.isoformat()
+            "date_created": self.date_created.isoformat(),
+            "author": self.user.username
         }

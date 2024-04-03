@@ -7,6 +7,10 @@ const Posts = () => {
   const dispatch = useDispatch()
   const sessionUser = useSelector((state) => state.session.user)
   const posts = Object.values(useSelector((state) => state.posts.allPosts))
+  console.log(
+    "What is the information coming to my component from reducer====>",
+    posts
+  )
 
   useEffect(() => {
     dispatch(getAllPosts())
@@ -28,12 +32,24 @@ const Posts = () => {
         </div>
         <div className="featured-post">
           <h1>Featured Post</h1>
+
+          {/* Implement logic here to randomly select a post and have it featured... will need to figure
+            out how to switch with time...
+          */}
         </div>
         <div>
           <h2>Recent Posts</h2>
           {posts.map((post) => (
             <div key={post.id}>
-              <p>{`${post.content}`}</p>
+              <p>{`Title: ${post.title}`}</p>
+              <p>{`Author: ${post.author}`}</p>
+              <p>{`Content: ${post.content}`}</p>
+              <p>{`Date Created: ${post.date_created}`}</p>
+              {sessionUser && sessionUser.id === post.user_id && (
+                <NavLink exact to="/posts/update">
+                  <button>Update Post</button>
+                </NavLink>
+              )}
             </div>
           ))}
         </div>
