@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react"
 import { useSelector, useDispatch } from "react-redux"
-import { NavLink } from "react-router-dom"
+import { NavLink, useHistory } from "react-router-dom"
 import DeletePostModal from "../DeleteModal/DeletePostModal"
 import { deletePost } from "../../store/posts"
 import { getAllPosts } from "../../store/posts"
 
 const Posts = () => {
   const dispatch = useDispatch()
+  const history = useHistory()
   const sessionUser = useSelector((state) => state.session.user)
   const posts = Object.values(useSelector((state) => state.posts.allPosts))
   const [isModalOpen, setIsModalOpen] = useState(false)
@@ -17,7 +18,6 @@ const Posts = () => {
   }, [dispatch])
 
   const openModal = (post) => {
-    console.log("Modal button is being pressed")
     setPostToDelete(post)
     setIsModalOpen(true)
   }
@@ -28,7 +28,8 @@ const Posts = () => {
 
   const handleDeleteConfirm = () => {
     if (postToDelete) {
-      dispatch(deletePost(postToDelete.id))
+      dispatch(deletePost(postToDelete.id)).then(() => dispatch(getAllPosts()))
+      history.push("/")
     }
     closeModal()
   }

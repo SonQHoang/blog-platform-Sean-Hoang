@@ -1,6 +1,7 @@
 from flask import Blueprint, request, jsonify
 from flask_login import current_user, login_required
 from ..forms.create_post_form import NewPostForm
+from ..forms.update_post_form import UpdatePostForm
 from datetime import datetime
 from ..models.db import db
 from app.models import Post
@@ -52,3 +53,34 @@ def get_all_posts():
     all_posts = Post.query.all()
     posts_list = [post.to_dict() for post in all_posts]
     return jsonify(posts_list)
+
+@login_required
+@post_routes.route('/<int:post_id>/update', methods=["PUT"])
+def update_post(post_id):
+    form = UpdatePostForm()
+    form['csrf_token'].data = request.cookies['csrf_token']
+
+    post = Post.query.get_or_404(post_id)
+    if form.validate_on_submit():
+        if post.user_id != current_user.id:
+            return jsonify({"message": "You cannot edit a post that is not your own"}), 401
+
+        post.title = form.title.data
+        post.content = form.content.data
+        post.date_udpated = datetime.utcnow()
+        db.session.commit()
+
+        return jsonify(post.to_dict())
+    else:
+        return jsonify({"errors": form.errors})
+
+@login_required
+@post_routes.route('/<int:post_id>/delete', methods=["DELETE"])
+def delete_post(post_id):
+    post = Post.query.get(post_id)
+    if post.user_id != current_user.id:
+        return jsonify({"message": "You cannot delete a post that is not your own"}), 401
+
+    db.session.delete(post)
+    db.session.commit()
+    return post.to_dict()

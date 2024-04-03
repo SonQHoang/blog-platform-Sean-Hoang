@@ -114,7 +114,20 @@ export const updatePost = (postId, updatedPost) => async (dispatch) => {
   }
 }
 
-export const deletePost = (postId) => async (dispatch) => {}
+export const deletePost = (postId) => async (dispatch) => {
+  const response = await fetch(`/api/posts/${postId}/delete`, {
+    method: "DELETE",
+    headers: {
+      "Content-Type": "application/json",
+    },
+  })
+
+  if (response.ok) {
+    dispatch(acDeletePost(Number(postId)))
+  }
+
+  return response
+}
 
 // Reducers
 
@@ -157,7 +170,12 @@ const postReducer = (state = initialState, action) => {
     }
 
     case DELETE_POST: {
-      return {}
+      const newState = {
+        ...state,
+        allPosts: { ...state.allPosts },
+      }
+      delete newState.allPosts[action.payload]
+      return newState
     }
 
     default:
