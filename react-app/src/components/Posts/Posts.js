@@ -1,9 +1,17 @@
-import React from "react"
-import { useSelector } from "react-redux"
+import React, { useEffect } from "react"
+import { useSelector, useDispatch } from "react-redux"
 import { NavLink } from "react-router-dom"
+import { getAllPosts } from "../../store/posts"
 
 const Posts = () => {
+  const dispatch = useDispatch()
   const sessionUser = useSelector((state) => state.session.user)
+  const posts = Object.values(useSelector((state) => state.posts.allPosts))
+
+  useEffect(() => {
+    dispatch(getAllPosts())
+    // console.log("Sending a response out to getAllPosts")
+  }, [dispatch])
 
   return (
     <>
@@ -23,6 +31,11 @@ const Posts = () => {
         </div>
         <div>
           <h2>Recent Posts</h2>
+          {posts.map((post) => (
+            <div key={post.id}>
+              <p>{`${post.content}`}</p>
+            </div>
+          ))}
         </div>
       </div>
     </>

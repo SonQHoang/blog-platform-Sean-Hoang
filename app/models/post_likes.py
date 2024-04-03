@@ -11,7 +11,7 @@ class PostLike(db.Model):
     # Post Likes has a many <= one relationship with users and posts
 
     user = db.relationship('User', back_populates="likes")
-    posts = db.relationship('Post', back_populates="posts")
+    posts = db.relationship('Post', back_populates="likes")
 
     def to_dict(self):
             return {

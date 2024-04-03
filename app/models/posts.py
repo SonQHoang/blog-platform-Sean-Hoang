@@ -11,14 +11,14 @@ class Post(db.Model):
 
 
     id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.id'), nullable=False)
     title = db.Column(db.String, nullable=False)
-    body = db.Column(db.String, nullable=False)
+    content = db.Column(db.String, nullable=False)
     date_created = db.Column(db.DateTime, nullable=False)
 
     # Posts has a one => many relationship with PostLikes, PostComments
     comments = db.relationship('PostComment', back_populates='post')
-    likes = db.relationship('Like', back_populates='post')
+    likes = db.relationship('PostLike', back_populates='posts')
 
     #Posts has a many <= one relationship with Users
     user = db.relationship('User', back_populates='posts')
@@ -29,7 +29,8 @@ class Post(db.Model):
     def to_dict(self):
         return {
             "id": self.id,
+            "user_id": self.user_id,
             "title": self.title,
-            "body": self.body,
-            "date_created": self.date_created
+            "content": self.content,
+            "date_created": self.date_created.isoformat()
         }

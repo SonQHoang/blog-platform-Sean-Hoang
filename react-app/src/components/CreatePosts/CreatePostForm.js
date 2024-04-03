@@ -1,17 +1,30 @@
 import React, { useState } from "react"
 import { useDispatch, useSelector } from "react-redux"
+import { useHistory } from "react-router-dom"
 import { createPost } from "../../store/posts"
 import "./CreatePostForm.css"
 
 const CreatePostForm = () => {
   const dispatch = useDispatch()
+  const history = useHistory()
+
   const [title, setTitle] = useState("")
   const [content, setContent] = useState("")
 
+  const reset = () => {
+    setTitle("")
+    setContent("")
+  }
+
   const handleSubmit = (e) => {
     e.preventDefault()
-    const newPost = { title, content }
+
+    const newPost = {
+      title: title,
+      content: content,
+    }
     dispatch(createPost(newPost))
+    history.push("/")
   }
 
   return (

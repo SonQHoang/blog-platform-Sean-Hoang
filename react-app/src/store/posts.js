@@ -10,42 +10,43 @@ const UPDATE_POST = "posts/update"
 const acCreatePost = (posts) => {
   return {
     type: CREATE_POST,
-    posts,
+    payload: posts,
   }
 }
 
 const acGetAllPosts = (posts) => {
+  console.log("What is my post===>", posts)
   return {
     type: GET_ALL_POSTS,
-    posts,
+    payload: posts,
   }
 }
 
 const acGetUserPosts = (posts) => {
   return {
     type: GET_USER_POSTS,
-    posts,
+    payload: posts,
   }
 }
 
 const acGetPostsByID = (posts) => {
   return {
     type: GET_POSTS_BY_ID,
-    posts,
+    payload: posts,
   }
 }
 
 const acUpdatePost = (posts) => {
   return {
     type: UPDATE_POST,
-    posts,
+    payload: posts,
   }
 }
 
 const acDeletePost = (posts) => {
   return {
     type: DELETE_POST,
-    posts,
+    payload: posts,
   }
 }
 
@@ -54,31 +55,42 @@ const acDeletePost = (posts) => {
 export const createPost = (postData) => async (dispatch, getState) => {
   const userId = getState().session.user.id
   const dataWithUserId = { ...postData, userId }
-  // console.log("What does my data look like currently===>", dataWithUserId) // id is being passed along
   try {
-    const response = await fetch("/api/posts/new", {
+    const response = await fetch(`/api/posts/new`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
       },
       body: JSON.stringify(dataWithUserId),
     })
-
-    if (!response.ok) {
-      throw new Error("Network response was not ok")
+    if (response.ok) {
+      const post = await response.json()
+      dispatch(acCreatePost(post))
+      return post
+    } else {
+      const errors = await response.text()
+      throw new Error(`Failed to create tip: ${errors}`)
     }
-
-    const createdPost = await response.json()
-    dispatch(acCreatePost(createdPost))
-    return createdPost
   } catch (error) {
-    console.error("Error creating post: ", error)
-    const errorMessage = error.message || "an error occurred"
-    return { error: errorMessage }
+    console.error(error)
   }
 }
 
-export const getAllPosts = () => async (dispatch) => {}
+export const getAllPosts = () => async (dispatch) => {
+  try {
+    const response = await fetch(`/api/posts/all`)
+    // console.log("What is the response===>", response)
+    if (response.ok) {
+      const data = await response.json()
+      // console.log("So what is my data====>", data)
+      dispatch(acGetAllPosts(data))
+    } else {
+      console.error("Response not ok:", response.status)
+    }
+  } catch (error) {
+    console.error(error)
+  }
+}
 
 export const getUserPosts = () => async (dispatch) => {}
 
@@ -98,11 +110,17 @@ const initialState = {
 const postReducer = (state = initialState, action) => {
   switch (action.type) {
     case CREATE_POST: {
-      return {}
+      return {
+        ...state,
+        allPosts: { ...state.allPosts, [action.posts.id]: action.posts },
+      }
     }
 
     case GET_ALL_POSTS: {
-      return {}
+      return {
+        ...state,
+        allPosts: action.payload,
+      }
     }
 
     case GET_POSTS_BY_ID: {
