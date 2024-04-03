@@ -1,21 +1,37 @@
-import React, { useEffect } from "react"
+import React, { useEffect, useState } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import { NavLink } from "react-router-dom"
+import DeletePostModal from "../DeleteModal/DeletePostModal"
+import { deletePost } from "../../store/posts"
 import { getAllPosts } from "../../store/posts"
 
 const Posts = () => {
   const dispatch = useDispatch()
   const sessionUser = useSelector((state) => state.session.user)
   const posts = Object.values(useSelector((state) => state.posts.allPosts))
-  console.log(
-    "What is the information coming to my component from reducer====>",
-    posts
-  )
+  const [isModalOpen, setIsModalOpen] = useState(false)
+  const [postToDelete, setPostToDelete] = useState(null)
 
   useEffect(() => {
     dispatch(getAllPosts())
-    // console.log("Sending a response out to getAllPosts")
   }, [dispatch])
+
+  const openModal = (post) => {
+    console.log("Modal button is being pressed")
+    setPostToDelete(post)
+    setIsModalOpen(true)
+  }
+
+  const closeModal = () => {
+    setIsModalOpen(false)
+  }
+
+  const handleDeleteConfirm = () => {
+    if (postToDelete) {
+      dispatch(deletePost(postToDelete.id))
+    }
+    closeModal()
+  }
 
   return (
     <>
@@ -46,14 +62,22 @@ const Posts = () => {
               <p>{`Content: ${post.content}`}</p>
               <p>{`Date Created: ${post.date_created}`}</p>
               {sessionUser && sessionUser.id === post.user_id && (
-                <NavLink exact to="/posts/update">
+                <NavLink exact to={`/posts/${post.id}/update`}>
                   <button>Update Post</button>
                 </NavLink>
+              )}
+              {sessionUser && sessionUser.id === post.user_id && (
+                <button onClick={() => openModal(post)}>Delete Post</button>
               )}
             </div>
           ))}
         </div>
       </div>
+      <DeletePostModal
+        isOpen={isModalOpen}
+        onClose={closeModal}
+        onConfirm={handleDeleteConfirm}
+      />
     </>
   )
 }

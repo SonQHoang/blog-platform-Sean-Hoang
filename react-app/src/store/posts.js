@@ -64,7 +64,6 @@ export const createPost = (postData) => async (dispatch, getState) => {
     })
     if (response.ok) {
       const post = await response.json()
-      console.log("What does my post look like====>", post)
       dispatch(acCreatePost(post))
       return post
     } else {
@@ -94,7 +93,26 @@ export const getUserPosts = () => async (dispatch) => {}
 
 export const getPostById = (postId) => async (dispatch) => {}
 
-export const updatePost = (postId, updatedPost) => async (dispatch) => {}
+export const updatePost = (postId, updatedPost) => async (dispatch) => {
+  try {
+    const response = await fetch(`/api/posts/${postId}/update`, {
+      method: "PUT",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(updatedPost),
+    })
+    if (response.ok) {
+      const data = await response.json()
+      dispatch(acUpdatePost(data))
+    } else {
+      console.error(
+        "There was an error in updating your posts:",
+        response.status
+      )
+    }
+  } catch (error) {
+    console.error(error)
+  }
+}
 
 export const deletePost = (postId) => async (dispatch) => {}
 
@@ -129,7 +147,13 @@ const postReducer = (state = initialState, action) => {
     }
 
     case UPDATE_POST: {
-      return {}
+      return {
+        ...state,
+        allPosts: {
+          ...state.allPosts,
+          [action.payload.id]: action.payload,
+        },
+      }
     }
 
     case DELETE_POST: {

@@ -25,7 +25,7 @@ function App() {
           <Route exact path="/posts/new">
             <CreatePostForm />
           </Route>
-          <Route exact path="/posts/new">
+          <Route exact path="/posts/:postId/update" component={UpdatePostForm}>
             <UpdatePostForm />
           </Route>
           <Route path="/signup">
