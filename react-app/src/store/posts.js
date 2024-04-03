@@ -51,7 +51,32 @@ const acDeletePost = (posts) => {
 
 //Thunks
 
-export const createPost = (data, userId) => async (dispatch) => {}
+export const createPost = (postData) => async (dispatch, getState) => {
+  const userId = getState().session.user.id
+  const dataWithUserId = { ...postData, userId }
+  // console.log("What does my data look like currently===>", dataWithUserId) // id is being passed along
+  try {
+    const response = await fetch("/api/posts/new", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(dataWithUserId),
+    })
+
+    if (!response.ok) {
+      throw new Error("Network response was not ok")
+    }
+
+    const createdPost = await response.json()
+    dispatch(acCreatePost(createdPost))
+    return createdPost
+  } catch (error) {
+    console.error("Error creating post: ", error)
+    const errorMessage = error.message || "an error occurred"
+    return { error: errorMessage }
+  }
+}
 
 export const getAllPosts = () => async (dispatch) => {}
 

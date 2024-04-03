@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react"
 import { useDispatch } from "react-redux"
 import { Route, Switch } from "react-router-dom"
 import MainPage from "./components/LandingPage/LandingPage"
+import CreatePostForm from "./components/CreatePosts/CreatePostForm"
 import SignupFormPage from "./components/SignupFormPage"
 import LoginFormPage from "./components/LoginFormPage"
 import { authenticate } from "./store/session"
@@ -19,6 +20,9 @@ function App() {
         <Switch>
           <Route path="/login">
             <LoginFormPage />
+          </Route>
+          <Route exact path="/posts/new">
+            <CreatePostForm />
           </Route>
           <Route path="/signup">
             <SignupFormPage />
