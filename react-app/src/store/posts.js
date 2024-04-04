@@ -8,6 +8,7 @@ const GET_POSTS_BY_ID = "posts/postById"
 const UPDATE_POST = "posts/update"
 
 const acCreatePost = (posts) => {
+  console.log("Is the tag in the ac now?====>", posts)
   return {
     type: CREATE_POST,
     payload: posts,

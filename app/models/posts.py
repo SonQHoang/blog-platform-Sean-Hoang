@@ -33,5 +33,6 @@ class Post(db.Model):
             "title": self.title,
             "content": self.content,
             "date_created": self.date_created.isoformat(),
-            "author": self.user.username
-        }
+            "author": self.user.username,
+            "tags": [tag.name for tag in self.post_tags]
+            }

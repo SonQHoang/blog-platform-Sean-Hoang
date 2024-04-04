@@ -8,6 +8,7 @@ import UpdatePostForm from "./components/UpdatePosts/UpdatePostForm"
 import SignupFormPage from "./components/SignupFormPage"
 import LoginFormPage from "./components/LoginFormPage"
 import { authenticate } from "./store/session"
+import "@fortawesome/fontawesome-free/css/all.min.css"
 
 function App() {
   const dispatch = useDispatch()

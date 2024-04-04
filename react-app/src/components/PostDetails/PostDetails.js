@@ -4,6 +4,7 @@ import "./PostDetails.css"
 import { getPostById } from "../../store/posts"
 import { useParams } from "react-router-dom"
 import PostComments from "../PostComments/PostComments"
+import PostLikes from "../PostLikes/PostLikes"
 
 const PostDetails = () => {
   const { postId } = useParams()
@@ -26,8 +27,12 @@ const PostDetails = () => {
           <div>
             <h1>{post.title}</h1>
           </div>
-          <div>By: {post.author}</div>
-          <div>{post.content}</div>
+          <h2>By: {post.author}</h2>
+          <p>{post.content}</p>
+          <ul>
+            {post.tags && post.tags.map((tag) => <li key={tag.id}>{tag}</li>)}
+          </ul>
+          <PostLikes />
         </div>
         <div className="post-comments">
           <PostComments props={postId} />

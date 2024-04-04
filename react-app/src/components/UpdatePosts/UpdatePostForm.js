@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react"
 import { useDispatch, useSelector } from "react-redux"
 import { useHistory, useParams } from "react-router-dom"
-import { updatePost } from "../../store/posts"
+import { updatePost, getPostById, getAllPosts } from "../../store/posts"
 import "./UpdatePostForm.css"
 
 const UpdatePostForm = () => {
@@ -9,31 +9,48 @@ const UpdatePostForm = () => {
   const history = useHistory()
   const dispatch = useDispatch()
 
-  const currentPost = useSelector((state) =>
-    state.posts.allPosts.find((post) => post.id === Number(postId))
-  )
-  console.log("What does the currentpost look like===>", currentPost)
+  const currentPost = useSelector((state) => state.posts.singlePost)
 
-  // For making sure data is up to date [ Need to build this out later]
-  //   useEffect(() => {
-  //     if (!currentPost) {
-  //       dispatch(getPostById(postId))
-  //     }
-  //   }, [dispatch, postId, currentPost])
+  useEffect(() => {
+    dispatch(getPostById(postId))
+  }, [dispatch, postId])
+
+  useEffect(() => {
+    if (currentPost) {
+      setTitle(currentPost.title)
+      setContent(currentPost.content)
+      setTags(currentPost.tags || [])
+    }
+  }, [currentPost])
 
   const [title, setTitle] = useState(currentPost?.title || "")
   const [content, setContent] = useState(currentPost?.content || "")
+  const [tags, setTags] = useState(currentPost?.tags || [])
+  const [tagInput, setTagInput] = useState("")
+
+  const handleAddTag = () => {
+    const newTag = tagInput.trim()
+    if (newTag && !tags.includes(newTag)) {
+      setTags([...tags, newTag])
+    }
+    setTagInput("")
+  }
+
+  const handleRemoveTag = (tagToRemove) => {
+    setTags(tags.filter((tag) => tag !== tagToRemove))
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault()
-
     const updatedPost = {
       ...currentPost,
       title,
       content,
+      tags,
     }
 
     dispatch(updatePost(postId, updatedPost))
+    dispatch(getAllPosts())
     history.push("/")
   }
 
@@ -55,6 +72,28 @@ const UpdatePostForm = () => {
           onChange={(e) => setContent(e.target.value)}
         ></textarea>
       </label>
+      <label>
+        Tags:
+        <input
+          type="text"
+          value={tagInput}
+          onChange={(e) => setTagInput(e.target.value)}
+          onKeyDown={(e) => e.key === "Enter" && handleAddTag()}
+        />
+        <button type="button" onClick={handleAddTag}>
+          Add Tag
+        </button>
+      </label>
+      <div className="tags-container">
+        {tags.map((tag, index) => (
+          <div key={index} className="tag-item">
+            {tag}
+            <button type="button" onClick={() => handleRemoveTag(tag)}>
+              Remove
+            </button>
+          </div>
+        ))}
+      </div>
       <button type="submit">Update Post</button>
     </form>
   )

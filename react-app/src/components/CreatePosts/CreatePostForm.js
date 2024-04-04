@@ -1,5 +1,5 @@
 import React, { useState } from "react"
-import { useDispatch, useSelector } from "react-redux"
+import { useDispatch } from "react-redux"
 import { useHistory } from "react-router-dom"
 import { createPost } from "../../store/posts"
 import "./CreatePostForm.css"
@@ -10,10 +10,19 @@ const CreatePostForm = () => {
 
   const [title, setTitle] = useState("")
   const [content, setContent] = useState("")
+  const [tags, setTags] = useState([])
+  const [tagInput, setTagInput] = useState("")
 
-  const reset = () => {
-    setTitle("")
-    setContent("")
+  const handleAddTag = () => {
+    let newTag = tagInput.trim()
+    if (newTag && !tags.includes(newTag)) {
+      setTags([...tags, newTag])
+    }
+    setTagInput("")
+  }
+
+  const handleRemoveTag = (tagToRemove) => {
+    setTags(tags.filter((tag) => tag !== tagToRemove))
   }
 
   const handleSubmit = (e) => {
@@ -22,7 +31,9 @@ const CreatePostForm = () => {
     const newPost = {
       title: title,
       content: content,
+      tags,
     }
+
     dispatch(createPost(newPost))
     history.push("/")
   }
@@ -42,8 +53,28 @@ const CreatePostForm = () => {
         <textarea
           value={content}
           onChange={(e) => setContent(e.target.value)}
-        ></textarea>
+        />
+        <label>
+          Tags:
+          <input
+            type="text"
+            value={tagInput}
+            onChange={(e) => setTagInput(e.target.value)}
+            onBlur={handleAddTag}
+            onKeyDown={(e) => e.key === "Enter" && handleAddTag()}
+          />
+        </label>
       </label>
+      <div className="tags-preview">
+        {tags.map((tag) => (
+          <div key={tag} className="tag">
+            {tag}
+            <button type="button" onClick={() => handleRemoveTag(tag)}>
+              x
+            </button>
+          </div>
+        ))}
+      </div>
       <button type="submit">Create Post</button>
     </form>
   )

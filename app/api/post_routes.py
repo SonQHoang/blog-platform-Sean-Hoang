@@ -4,7 +4,7 @@ from ..forms.create_post_form import NewPostForm
 from ..forms.update_post_form import UpdatePostForm
 from datetime import datetime
 from ..models.db import db
-from app.models import Post
+from app.models import Post, Tag
 from .auth_routes import validation_errors_to_error_messages
 
 
@@ -29,19 +29,30 @@ def new_post():
     form['csrf_token'].data = request.cookies['csrf_token']
 
     if form.validate_on_submit():
+        data = request.json
         title = request.json["title"]
         content = request.json["content"]
+        tag_names = data.get("tags", [])
+
         post = Post(
             user_id=current_user.id,
             title=title,
             content=content,
-            date_created=datetime.now()
+            date_created=datetime.now(),
         )
+
+        for tag_name in tag_names:
+            tag = Tag.query.filter_by(name=tag_name).first()
+            if not tag:
+                tag = Tag(user_id=current_user.id, name=tag_name)
+                db.session.add(tag)
+            post.post_tags.append(tag)
 
         db.session.add(post)
         db.session.commit()
 
         post_data = post.to_dict()
+        post_data['tags'] = [tag.name for tag in post.post_tags]
         post_data['author'] = current_user.username
 
         return jsonify(post_data)

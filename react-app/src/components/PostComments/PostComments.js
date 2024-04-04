@@ -19,7 +19,6 @@ const PostComments = () => {
   }, [dispatch])
 
   const comments = useSelector((state) => state.postComments.comments)
-  console.log("What are all of my comments like now?====>", comments)
 
   const openModal = (post) => {
     setCommentToEdit(post)
@@ -68,6 +67,7 @@ const PostComments = () => {
           ))}
         </div>
       </div>
+
       <CommentsModal
         isOpen={isModalOpen}
         onClose={closeModal}
