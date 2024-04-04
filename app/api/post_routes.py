@@ -7,8 +7,6 @@ from ..models.db import db
 from app.models import Post, Tag
 from .auth_routes import validation_errors_to_error_messages
 
-
-
 post_routes = Blueprint('posts', __name__, url_prefix="")
 
 
@@ -32,7 +30,7 @@ def new_post():
         data = request.json
         title = request.json["title"]
         content = request.json["content"]
-        tag_names = data.get("tags", [])
+        tag_names = sorted([tag_name.capitalize() for tag_name in data.get("tags", [])])
 
         post = Post(
             user_id=current_user.id,
@@ -52,7 +50,7 @@ def new_post():
         db.session.commit()
 
         post_data = post.to_dict()
-        post_data['tags'] = [tag.name for tag in post.post_tags]
+        post_data['tags'] = sorted([tag.name for tag in post.post_tags])
         post_data['author'] = current_user.username
 
         return jsonify(post_data)
@@ -83,7 +81,8 @@ def update_post(post_id):
         post.date_updated = datetime.utcnow()
 
         # Adding Tags
-        updated_tags = data.get('tags', []) or []
+        updated_tags = [tag.capitalize() for tag in data.get('tags', [])]
+        updated_tags.sort()
         current_tags = {tag.name for tag in post.post_tags}
 
         #Removing Tags
@@ -100,6 +99,9 @@ def update_post(post_id):
                 post.post_tags.append(tag)
 
         db.session.commit()
+
+        post_data = post.to_dict()
+        post_data['tags'] = sorted([tag.name.capitalize() for tag in post.post_tags])
 
         return jsonify(post.to_dict())
     else:
@@ -125,3 +127,20 @@ def get_post_by_id(post_id):
     
     post_data = post.to_dict()
     return jsonify(post_data)
+
+@post_routes.route('/search')
+def search_posts():
+    query = request.args.get('query', '')
+    if query:
+        search = f"%{query}"
+        posts = Post.query.filter(
+            db.or_(
+                Post.title.ilike(search),
+                Post.content.ilike(search),
+                Post.tags.any(Tag.name.ilike(search))
+
+            )
+        ).all()
+        return jsonify([post.to_dict() for post in posts])
+    else:
+        return jsonify([])
