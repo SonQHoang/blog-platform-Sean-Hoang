@@ -8,23 +8,15 @@ const SearchBar = () => {
   const [filter, setFilter] = useState("all")
   const dispatch = useDispatch()
 
-  //Debouncer to reduce burden on backend
-  useEffect(() => {
+  const handleSearch = (e) => {
+    e.preventDefault()
     if (query) {
-      const timerId = setTimeout(() => {
-        dispatch(searchPosts(query, filter))
-      }, 500)
-      return () => clearTimeout(timerId)
+      dispatch(searchPosts(query, filter))
     }
-  }, [query, filter, dispatch])
+  }
 
   return (
-    <form
-      onSubmit={(e) => {
-        e.preventDefault()
-      }}
-      className="search-bar-form"
-    >
+    <form onSubmit={handleSearch} className="search-bar-form">
       <select
         value={filter}
         onChange={(e) => setFilter(e.target.value)}

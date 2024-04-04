@@ -6,6 +6,7 @@ import CreatePostForm from "./components/CreatePosts/CreatePostForm"
 import PostDetails from "./components/PostDetails/PostDetails"
 import UpdatePostForm from "./components/UpdatePosts/UpdatePostForm"
 import SignupFormPage from "./components/SignupFormPage"
+import SearchResultsPage from "./components/SearchResultsPage/SearchResultsPage"
 import LoginFormPage from "./components/LoginFormPage"
 import { authenticate } from "./store/session"
 import "@fortawesome/fontawesome-free/css/all.min.css"
@@ -21,7 +22,7 @@ function App() {
     <>
       {isLoaded && (
         <Switch>
-          <Route path="/login">
+          <Route exact path="/login">
             <LoginFormPage />
           </Route>
           <Route exact path="/posts/new">
@@ -30,8 +31,11 @@ function App() {
           <Route exact path="/posts/:postId/update" component={UpdatePostForm}>
             <UpdatePostForm />
           </Route>
-          <Route path="/signup">
+          <Route exact path="/signup">
             <SignupFormPage />
+          </Route>
+          <Route exact path="/results">
+            <SearchResultsPage />
           </Route>
           <Route exact path="/">
             <MainPage />

@@ -59,7 +59,8 @@ const acDeletePost = (posts) => {
 
 //Thunks
 
-export const searchPosts = (query) => async (dispatch) => {
+export const searchPosts = (query, filter) => async (dispatch) => {
+  console.log("is my filter being passed too?", query, filter)
   try {
     const response = await fetch(`/api/posts/search?query=${query}`)
     const data = await response.json()
