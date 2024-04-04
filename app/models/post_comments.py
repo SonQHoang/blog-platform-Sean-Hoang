@@ -20,5 +20,6 @@ class PostComment(db.Model):
             "post_id": self.post_id,
             "user_id": self.user_id,
             "body": self.body,
-            "date_created": self.date_created.isoformat()
+            "date_created": self.date_created.isoformat(),
+            "author": self.user.username
         }

@@ -12,14 +12,14 @@ from .auth_routes import validation_errors_to_error_messages
 post_routes = Blueprint('posts', __name__, url_prefix="")
 
 
-def story_validation_errors_to_error_messages(validation_errors):
+def post_validation_errors_to_error_messages(validation_errors):
     """
     Simple function that turns the WTForms validation errors into a simple list
     """
     errorMessages = []
     for field in validation_errors:
         for error in validation_errors[field]:
-            errorMessages.append(f'A post {field} is required')
+            errorMessages.append('A post {field} is required')
     return errorMessages
 
 @login_required

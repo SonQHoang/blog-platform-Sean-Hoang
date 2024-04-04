@@ -1,15 +1,25 @@
-import React, { useState } from "react"
+import React, { useEffect, useState } from "react"
 import { useSelector, useDispatch } from "react-redux"
-import { useHistory } from "react-router-dom"
+import { useHistory, useParams } from "react-router-dom"
 import CommentsModal from "../CommentsModal/CommentsModal"
+import { getComments } from "../../store/postcomments"
+import { postComment } from "../../store/postcomments"
 import "./PostComments.css"
 
 const PostComments = () => {
+  const { postId } = useParams()
   const dispatch = useDispatch()
   const history = useHistory()
   const sessionUser = useSelector((state) => state.session.user)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [commentToEdit, setCommentToEdit] = useState(null)
+
+  useEffect(() => {
+    dispatch(getComments(postId))
+  }, [dispatch])
+
+  const comments = useSelector((state) => state.postComments.comments)
+  console.log("What are all of my comments like now?====>", comments)
 
   const openModal = (post) => {
     setCommentToEdit(post)
@@ -22,10 +32,10 @@ const PostComments = () => {
 
   const handleCommentConfirm = () => {
     if (commentToEdit) {
-      // dispatch(makeComment(commentToEdit.id)).then(() =>
-      //   dispatch(getAllPosts())
-      // )
-      // history.push("/")
+      dispatch(postComment(commentToEdit.id)).then(() =>
+        dispatch(getComments())
+      )
+      history.push("/")
     }
     closeModal()
   }
@@ -48,6 +58,14 @@ const PostComments = () => {
               Post a Comment
             </button>
           )}
+
+          {comments.map((comment) => (
+            <div key={comment.id}>
+              <p>By: {comment.author}</p>
+              <p>Date: {comment.date_created}</p>
+              <p>Comment: {comment.body}</p>
+            </div>
+          ))}
         </div>
       </div>
       <CommentsModal
