@@ -9,6 +9,7 @@ const UPDATE_POST = "posts/update"
 const SEARCH_POST = "posts/search"
 
 const acSearchPost = (posts) => {
+  console.log("What is the data in my post search ac====>", posts)
   return {
     type: SEARCH_POST,
     payload: posts,
@@ -60,12 +61,13 @@ const acDeletePost = (posts) => {
 //Thunks
 
 export const searchPosts = (query, filter) => async (dispatch) => {
-  console.log("is my filter being passed too?", query, filter)
   try {
-    const response = await fetch(`/api/posts/search?query=${query}`)
+    const response = await fetch(
+      `/api/posts/search?query=${query}&filter=${filter}`
+    )
     const data = await response.json()
     if (response.ok) {
-      dispatch(acSearchPost(data.posts))
+      dispatch(acSearchPost({ results: data, query }))
     } else {
       console.error("Search failed:", data.errors)
     }
@@ -126,10 +128,6 @@ export const getPostById = (postId) => async (dispatch) => {
 }
 
 export const updatePost = (postId, updatedPost) => async (dispatch) => {
-  console.log(
-    "Does the tag info come back through from the frontend====>",
-    updatedPost
-  )
   try {
     const response = await fetch(`/api/posts/${postId}/update`, {
       method: "PUT",
@@ -138,10 +136,6 @@ export const updatePost = (postId, updatedPost) => async (dispatch) => {
     })
     if (response.ok) {
       const data = await response.json()
-      console.log(
-        "Does the tag info come back through from the backend====>",
-        data
-      )
       dispatch(acUpdatePost(data))
     } else {
       console.error(
@@ -174,6 +168,8 @@ export const deletePost = (postId) => async (dispatch) => {
 const initialState = {
   allPosts: {},
   singlePost: {},
+  searchResults: [],
+  lastSearchQuery: "",
 }
 
 const postReducer = (state = initialState, action) => {
@@ -219,6 +215,14 @@ const postReducer = (state = initialState, action) => {
       }
       delete newState.allPosts[action.payload]
       return newState
+    }
+
+    case SEARCH_POST: {
+      return {
+        ...state,
+        searchResults: action.payload,
+        lastSearchQuery: action.payload.query,
+      }
     }
 
     default:

@@ -130,17 +130,25 @@ def get_post_by_id(post_id):
 
 @post_routes.route('/search')
 def search_posts():
-    query = request.args.get('query', '')
+    # .args.get is used to get the query results. Not meant to be included in the route
+    query = request.args.get('query','filter' '') 
+    filter_type = request.args.get('filter', 'all')
+    posts = []
+
     if query:
         search = f"%{query}"
-        posts = Post.query.filter(
-            db.or_(
-                Post.title.ilike(search),
-                Post.content.ilike(search),
-                Post.tags.any(Tag.name.ilike(search))
-
+        if filter_type == 'title':
+            posts = Post.query.filter(Post.title.ilike(search)).all()
+        elif filter_type == 'content':
+            posts = Post.query.filter(Post.content.ilike(search)).all()
+        elif filter_type == 'tags':
+            posts = Post.query.filter(Post.post_tags.any(Tag.name.ilike(search))).all()
+        elif filter_type == 'all':
+            posts = Post.query.filter(
+                db.or_(
+                    Post.title.ilike(search),
+                    Post.content.ilike(search),
+                    Post.post_tags.any(Tag.name.ilike(search))
+                )
             )
-        ).all()
         return jsonify([post.to_dict() for post in posts])
-    else:
-        return jsonify([])
