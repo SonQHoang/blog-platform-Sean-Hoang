@@ -91,7 +91,17 @@ export const getAllPosts = () => async (dispatch) => {
 
 export const getUserPosts = () => async (dispatch) => {}
 
-export const getPostById = (postId) => async (dispatch) => {}
+export const getPostById = (postId) => async (dispatch) => {
+  try {
+    const response = await fetch(`/api/posts/${postId}`)
+    if (response.ok) {
+      const post = await response.json()
+      dispatch(acGetPostsByID(post))
+    }
+  } catch (error) {
+    console.error(error)
+  }
+}
 
 export const updatePost = (postId, updatedPost) => async (dispatch) => {
   try {
@@ -156,7 +166,10 @@ const postReducer = (state = initialState, action) => {
     }
 
     case GET_POSTS_BY_ID: {
-      return {}
+      return {
+        ...state,
+        singlePost: action.payload,
+      }
     }
 
     case UPDATE_POST: {

@@ -84,3 +84,13 @@ def delete_post(post_id):
     db.session.delete(post)
     db.session.commit()
     return post.to_dict()
+
+@post_routes.route('/<int:post_id>', methods=["GET"])
+def get_post_by_id(post_id):
+    post = Post.query.get(post_id)
+
+    if post is None:
+        return jsonify({"error": "Post not found"}), 404
+    
+    post_data = post.to_dict()
+    return jsonify(post_data)

@@ -3,6 +3,7 @@ import { useDispatch } from "react-redux"
 import { Route, Switch } from "react-router-dom"
 import MainPage from "./components/LandingPage/LandingPage"
 import CreatePostForm from "./components/CreatePosts/CreatePostForm"
+import PostDetails from "./components/PostDetails/PostDetails"
 import UpdatePostForm from "./components/UpdatePosts/UpdatePostForm"
 import SignupFormPage from "./components/SignupFormPage"
 import LoginFormPage from "./components/LoginFormPage"
@@ -34,6 +35,7 @@ function App() {
           <Route exact path="/">
             <MainPage />
           </Route>
+          <Route exact path="/posts/:postId" component={PostDetails}></Route>
         </Switch>
       )}
     </>
