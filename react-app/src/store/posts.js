@@ -105,6 +105,10 @@ export const getPostById = (postId) => async (dispatch) => {
 }
 
 export const updatePost = (postId, updatedPost) => async (dispatch) => {
+  console.log(
+    "Does the tag info come back through from the frontend====>",
+    updatedPost
+  )
   try {
     const response = await fetch(`/api/posts/${postId}/update`, {
       method: "PUT",
@@ -113,6 +117,10 @@ export const updatePost = (postId, updatedPost) => async (dispatch) => {
     })
     if (response.ok) {
       const data = await response.json()
+      console.log(
+        "Does the tag info come back through from the backend====>",
+        data
+      )
       dispatch(acUpdatePost(data))
     } else {
       console.error(

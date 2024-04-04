@@ -68,6 +68,8 @@ def get_all_posts():
 @login_required
 @post_routes.route('/<int:post_id>/update', methods=["PUT"])
 def update_post(post_id):
+    data = request.get_json()
+    
     form = UpdatePostForm()
     form['csrf_token'].data = request.cookies['csrf_token']
 
@@ -78,7 +80,25 @@ def update_post(post_id):
 
         post.title = form.title.data
         post.content = form.content.data
-        post.date_udpated = datetime.utcnow()
+        post.date_updated = datetime.utcnow()
+
+        # Adding Tags
+        updated_tags = data.get('tags', []) or []
+        current_tags = {tag.name for tag in post.post_tags}
+
+        #Removing Tags
+        for tag in list(post.post_tags):
+            if tag.name not in updated_tags:
+                post.post_tags.remove(tag)
+
+        for tag_name in updated_tags:
+            if tag_name not in current_tags:
+                tag = Tag.query.filter_by(name=tag_name).first()
+                if not tag:
+                    tag = Tag(name=tag_name, user_id=current_user.id)
+                    db.session.add(tag)
+                post.post_tags.append(tag)
+
         db.session.commit()
 
         return jsonify(post.to_dict())
