@@ -3,13 +3,13 @@ import { useSelector, useDispatch } from "react-redux"
 import "./PostDetails.css"
 import { getPostById } from "../../store/posts"
 import { useParams } from "react-router-dom"
+import PostComments from "../PostComments/PostComments"
 
 const PostDetails = () => {
   const { postId } = useParams()
   const dispatch = useDispatch()
 
   const post = useSelector((state) => state.posts.singlePost)
-  console.log("what is my post===>", post)
 
   useEffect(() => {
     dispatch(getPostById(postId))
@@ -28,6 +28,9 @@ const PostDetails = () => {
           </div>
           <div>By: {post.author}</div>
           <div>{post.content}</div>
+        </div>
+        <div className="post-comments">
+          <PostComments props={postId} />
         </div>
       </section>
     </>

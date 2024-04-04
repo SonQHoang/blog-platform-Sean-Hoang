@@ -72,15 +72,26 @@ const Posts = () => {
               <p>{`Content: ${post.content}`}</p>
               <p>{`Date Created: ${post.date_created}`}</p>
 
-              {sessionUser && sessionUser.id === post.user_id && (
-                <NavLink exact to={`/posts/${post.id}/update`}>
-                  <button>Update Post</button>
-                </NavLink>
-              )}
+              <div>
+                {sessionUser && sessionUser.id === post.user_id && (
+                  <NavLink exact to={`/posts/${post.id}/update`}>
+                    <button onClick={(e) => e.stopPropagation()}>
+                      Update Post
+                    </button>
+                  </NavLink>
+                )}
 
-              {sessionUser && sessionUser.id === post.user_id && (
-                <button onClick={() => openModal(post)}>Delete Post</button>
-              )}
+                {sessionUser && sessionUser.id === post.user_id && (
+                  <button
+                    onClick={(e) => {
+                      e.stopPropagation()
+                      openModal(post)
+                    }}
+                  >
+                    Delete Post
+                  </button>
+                )}
+              </div>
             </div>
           ))}
         </div>
