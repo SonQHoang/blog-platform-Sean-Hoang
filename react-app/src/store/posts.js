@@ -6,9 +6,16 @@ const DELETE_POST = "posts/delete"
 const GET_USER_POSTS = "posts/user"
 const GET_POSTS_BY_ID = "posts/postById"
 const UPDATE_POST = "posts/update"
+const SEARCH_POST = "posts/search"
+
+const acSearchPost = (posts) => {
+  return {
+    type: SEARCH_POST,
+    payload: posts,
+  }
+}
 
 const acCreatePost = (posts) => {
-  console.log("Is the tag in the ac now?====>", posts)
   return {
     type: CREATE_POST,
     payload: posts,
@@ -52,6 +59,19 @@ const acDeletePost = (posts) => {
 
 //Thunks
 
+export const searchPosts = (query) => async (dispatch) => {
+  try {
+    const response = await fetch(`/api/posts/search?query=${query}`)
+    const data = await response.json()
+    if (response.ok) {
+      dispatch(acSearchPost(data.posts))
+    } else {
+      console.error("Search failed:", data.errors)
+    }
+  } catch (error) {
+    console.error("Query failed", error)
+  }
+}
 export const createPost = (postData) => async (dispatch, getState) => {
   const userId = getState().session.user.id
   const dataWithUserId = { ...postData, userId }

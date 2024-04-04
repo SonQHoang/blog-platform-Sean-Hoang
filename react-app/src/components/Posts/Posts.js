@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import { NavLink, useHistory } from "react-router-dom"
 import DeletePostModal from "../DeleteModal/DeletePostModal"
+import FeaturedPosts from "../FeaturedPosts/FeaturedPosts"
 import { deletePost } from "../../store/posts"
 import { getAllPosts } from "../../store/posts"
 import "./Posts.css"
@@ -49,14 +50,10 @@ const Posts = () => {
           )}
         </div>
         <div className="featured-post">
-          <h1>Featured Post</h1>
-
-          {/* Implement logic here to randomly select a post and have it featured... will need to figure
-            out how to switch with time...
-          */}
+          <FeaturedPosts />
         </div>
         <div>
-          <h2>Recent Posts</h2>
+          <h2>Top Posts</h2>
           {posts.map((post) => (
             <div
               key={post.id}
