@@ -86,7 +86,7 @@ const UpdatePostForm = () => {
             className="tag-input"
           />
           <button
-            className="add-tag-button"
+            className="add-tag-button "
             type="button"
             onClick={handleAddTag}
           >
@@ -99,7 +99,7 @@ const UpdatePostForm = () => {
               {tag}
               <button
                 type="button"
-                className="remove-tag-button"
+                className="remove-tag-button clickable-hover-effect-content "
                 onClick={() => handleRemoveTag(tag)}
               >
                 Remove
@@ -107,7 +107,10 @@ const UpdatePostForm = () => {
             </div>
           ))}
         </div>
-        <button className="update-post-form-button" type="submit">
+        <button
+          className="update-post-form-button clickable-hover-effect-content "
+          type="submit"
+        >
           Update Post
         </button>
       </div>

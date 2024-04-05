@@ -14,10 +14,7 @@ const MainPage = () => {
   return (
     <>
       <Navigation />
-      <div className="main-posts-container">
-        <Posts />
-      </div>
-      {/* <div className="main-content">
+      <div className="main-content">
         {hasSearchResults ? (
           <SearchResultsPage />
         ) : (
@@ -25,7 +22,7 @@ const MainPage = () => {
             <Posts />
           </div>
         )}
-      </div> */}
+      </div>
     </>
   )
 }

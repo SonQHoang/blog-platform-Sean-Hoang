@@ -59,6 +59,7 @@
   border-radius: 20px;
   margin-right: 25px;
   padding: 10px;
+  cursor: pointer;
 }
 
 .delete-post-button {
@@ -66,6 +67,7 @@
   background-color: white;
   border-radius: 20px;
   margin-right: 25px;
+  cursor: pointer;
 }
 
 .post-update-delete-buttons {
@@ -81,4 +83,14 @@
   border-width: 1px;
   padding: 10px;
   font-size: 15px;
+  cursor: pointer;
+}
+
+.clickable-hover-effect-content {
+  transition: color 0.3s, box-shadow 0.3s;
+}
+
+.clickable-hover-effect-content:hover {
+  color: white;
+  box-shadow: 0 0 8px 2px silver;
 }

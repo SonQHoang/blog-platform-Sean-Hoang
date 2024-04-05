@@ -66,7 +66,7 @@ const Posts = () => {
                     onClick={() => {
                       history.push(`/posts/${post.id}`)
                     }}
-                    className="keep-reading-button"
+                    className="keep-reading-button clickable-hover-effect-content"
                   >
                     Keep Reading
                   </button>
@@ -78,7 +78,7 @@ const Posts = () => {
               {sessionUser && sessionUser.id === post.user_id && (
                 <NavLink exact to={`/posts/${post.id}/update`}>
                   <button
-                    className="update-post-button"
+                    className="update-post-button clickable-hover-effect-content"
                     onClick={(e) => e.stopPropagation()}
                   >
                     Update Post

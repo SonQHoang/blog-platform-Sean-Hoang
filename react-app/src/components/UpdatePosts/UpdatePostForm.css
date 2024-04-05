@@ -76,6 +76,7 @@
 .add-tag-button {
   /* border: 2px solid green; */
   margin-top: 10px;
+  cursor: pointer;
 }
 .tags-container {
   display: flex;
@@ -113,4 +114,14 @@
   padding: 5px;
   width: 100px;
   margin-top: 10px;
+  cursor: pointer;
+}
+
+.clickable-hover-effect-content {
+  transition: color 0.3s, box-shadow 0.3s;
+}
+
+.clickable-hover-effect-content:hover {
+  color: white;
+  box-shadow: 0 0 8px 2px silver;
 }
