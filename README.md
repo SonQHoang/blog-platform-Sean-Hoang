@@ -1,4 +1,4 @@
-# Problem Statement
+# Running the Application
 
 Create a blog platform where users can read and write blog posts. The system should allow users to register, log in, create, edit, and delete their blog posts. Additionally, users should be able to like, comment on.
 
