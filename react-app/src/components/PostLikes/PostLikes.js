@@ -4,8 +4,17 @@ import "./PostLikes.css"
 
 const PostLikes = ({ postId }) => {
   const sessionUser = useSelector((state) => state.session.user)
-  const [isLiked, setIsLiked] = useState(false)
-  const [likeCount, setLikeCount] = useState(0)
+  const [isLiked, setIsLiked] = useState(
+    JSON.parse(localStorage.getItem(`liked-${postId}`)) || false
+  )
+  const [likeCount, setLikeCount] = useState(
+    parseInt(localStorage.getItem(`likesCount-${postId}`), 10) || 0
+  )
+
+  useEffect(() => {
+    localStorage.setItem(`liked-${postId}`, JSON.stringify(isLiked))
+    localStorage.setItem(`likesCount-${postId}`, likeCount.toString())
+  }, [isLiked, likeCount, postId])
 
   const handleNewLike = () => {
     if (sessionUser) {
