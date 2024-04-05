@@ -41,6 +41,18 @@ def new_comment():
 
 @post_comments_routes.route('/posts/<int:postId>', methods=['GET'])
 def get_post_comments(postId):
-    all_comments = PostComment.query.all()
-    comments_list = [comment.to_dict() for comment in all_comments]
+    comments = PostComment.query.filter_by(post_id=postId).all()
+    comments_list = [comment.to_dict() for comment in comments]
     return jsonify(comments_list)
+
+@post_comments_routes.route('/posts/<int:commentId>/delete', methods=['DELETE'])
+@login_required
+def delete_post_comments(commentId):
+    comments = PostComment.query.get(commentId)
+
+    if comments.user_id != current_user.id:
+        return jsonify({"message": "You cannot delete a comment that is not your own"}), 401
+
+    db.session.delete(comments)
+    db.session.commit()
+    return post.to_dict()

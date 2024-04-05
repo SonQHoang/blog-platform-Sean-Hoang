@@ -37,7 +37,7 @@ const Posts = () => {
   }
 
   const summarizeContent = (content, maxLength = 250) => {
-    return content.length > maxLength
+    return content?.length > maxLength
       ? content.substring(0, maxLength) + "..."
       : content
   }

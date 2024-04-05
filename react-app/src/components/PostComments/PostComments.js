@@ -77,15 +77,16 @@ const PostComments = () => {
 
           {comments.map((comment) => (
             <div key={comment.id}>
-              <p>By: {comment.author}</p>
-              <p>{`Date Created: ${new Date(
-                comment.date_created
-              ).toLocaleDateString("en-US", {
-                month: "long",
-                day: "numeric",
-                year: "numeric",
-              })}`}</p>
-              <p>Comment: {comment.body}</p>
+              <p>{comment.author}</p>
+              <p>{`Date: ${new Date(comment.date_created).toLocaleDateString(
+                "en-US",
+                {
+                  month: "long",
+                  day: "numeric",
+                  year: "numeric",
+                }
+              )}`}</p>
+              <p>{comment.body}</p>
               {sessionUser && sessionUser.id === comment.user_id && (
                 <button onClick={() => openDeleteModal(comment)}>
                   Delete comment

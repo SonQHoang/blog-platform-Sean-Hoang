@@ -39,17 +39,21 @@ const CommentsModal = ({ isOpen, onClose }) => {
   }
 
   return (
-    <div className={modalClassName}>
-      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-        <span className="close-button" onClick={onClose}></span>
-        <h2>Leave a Comment</h2>
-        <form onSubmit={submitComment}>
-          <textarea
-            value={commentText}
-            onChange={(e) => setCommentText(e.target.value)}
-          ></textarea>
-          <button type="submit">Submit Your Comment</button>
-        </form>
+    <div className="comment-modal-container">
+      <div className={modalClassName}>
+        <div className="modal-content" onClick={(e) => e.stopPropagation()}>
+          <span className="close-button" onClick={onClose}></span>
+          <h2>Leave a Comment</h2>
+          <form onSubmit={submitComment}>
+            <textarea
+              value={commentText}
+              onChange={(e) => setCommentText(e.target.value)}
+            ></textarea>
+            <button className="comment-modal-button" type="submit">
+              Submit Your Comment
+            </button>
+          </form>
+        </div>
       </div>
     </div>
   )

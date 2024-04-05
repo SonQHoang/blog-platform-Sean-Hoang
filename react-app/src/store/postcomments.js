@@ -63,7 +63,7 @@ export const getComments = (postId) => async (dispatch) => {
 
 export const deleteComment = (commentId) => async (dispatch) => {
   try {
-    const response = await fetch(`/api/comments/${commentId}/delete`, {
+    const response = await fetch(`/api/comments/posts/${commentId}/delete`, {
       method: "DELETE",
       headers: {
         "Content-Type": "application/json",
@@ -72,16 +72,12 @@ export const deleteComment = (commentId) => async (dispatch) => {
     if (response.ok) {
       const data = await response.json()
       dispatch(acDeleteComment(data))
-    } else {
-      console.error(
-        "There was an error in deleting your comment:",
-        response.status
-      )
     }
   } catch (error) {
     console.error(error)
   }
 }
+
 const initialState = {
   comments: [],
 }
@@ -100,6 +96,15 @@ const postCommentsReducer = (state = initialState, action) => {
         ...state,
         comments: action.payload,
       }
+    }
+
+    case DELETE_POST_COMMENTS: {
+      const newState = {
+        ...state,
+        comments: { ...state.comments },
+      }
+      delete newState.comments[action.payload]
+      return newState
     }
 
     default:
