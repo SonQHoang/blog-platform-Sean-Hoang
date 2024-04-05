@@ -22,25 +22,36 @@ function Navigation() {
   }
 
   return (
-    <ul>
-      <div className="nav-container">
-        <NavLink exact to="/">
-          Home (Replace with a Generic Logo)
-        </NavLink>
-        {sessionUser ? (
-          <li>
-            <button onClick={handleLogout}>Log Out</button>
-          </li>
-        ) : (
-          <>
-            <div className="access-container">
-              <button onClick={goToLogin}>Log In</button>
-              <button onClick={goToSignUp}>Sign Up</button>
-            </div>
-          </>
-        )}
-      </div>
-    </ul>
+    <div className="nav-container">
+      <NavLink exact to="/" className="blog-element clickable-hover-effect">
+        Blog
+      </NavLink>
+      {sessionUser ? (
+        <span
+          className="log-out-button clickable-hover-effect"
+          onClick={handleLogout}
+        >
+          Log Out
+        </span>
+      ) : (
+        <>
+          <div className="access-container">
+            <span
+              className="login-button clickable-hover-effect"
+              onClick={goToLogin}
+            >
+              Log In
+            </span>
+            <button
+              className="sign-up-button clickable-hover-effect"
+              onClick={goToSignUp}
+            >
+              Sign Up
+            </button>
+          </div>
+        </>
+      )}
+    </div>
   )
 }
 

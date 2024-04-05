@@ -1,0 +1,32 @@
+.search-bar-container {
+  padding-top: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.search-bar-form {
+  display: flex;
+}
+
+.search-filter-select {
+  font-size: 16px;
+  border: transparent;
+  margin-right: 5px;
+  cursor: pointer;
+}
+.search-bar-form input[type="text"] {
+  border: 1px solid #eeeff2;
+  min-width: 305px;
+  font-size: 14px;
+  width: 100%;
+  padding: 0 10px;
+  height: 30px;
+  border-radius: 25px;
+  background: #f7f8fa;
+}
+
+.search-bar-form input[type="text"]::placeholder {
+  font-size: 15px;
+  color: #c5ccd1;
+}

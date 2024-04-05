@@ -38,7 +38,7 @@ const Posts = () => {
 
   return (
     <>
-      <div className="posts-wrapper">
+      <div className="main-posts-container">
         {/* Conditional rendering. Create New Post button only displays if the user is logged in */}
         <div>
           {sessionUser !== null ? (
@@ -53,21 +53,26 @@ const Posts = () => {
           <FeaturedPosts />
         </div>
         <div>
-          <h2>Top Posts</h2>
+          <div className="top-posts-container">
+            <h2 className="top-posts-header">Top Posts</h2>
+          </div>
           {posts.map((post) => (
             <div
               key={post.id}
               className="single-post-container"
               onClick={() => {
-                if (sessionUser !== null) {
-                  history.push(`/posts/${post.id}`)
-                }
+                history.push(`/posts/${post.id}`)
               }}
             >
-              <p>{`Title: ${post.title}`}</p>
-              <p>{`Author: ${post.author}`}</p>
-              <p>{`Content: ${post.content}`}</p>
-              <p>{`Date Created: ${post.date_created}`}</p>
+              <div className="top-post-container">
+                <div className="top-post-image">Placeholder</div>
+                <div className="top-post-content">
+                  <p>{`${post.title}`}</p>
+                  <p>{`Published by ${post.author}`}</p>
+                  <p>{`${post.content}`}</p>
+                  <p>{`Date Created: ${post.date_created}`}</p>
+                </div>
+              </div>
 
               <div>
                 {sessionUser && sessionUser.id === post.user_id && (

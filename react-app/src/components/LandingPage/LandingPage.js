@@ -15,10 +15,10 @@ const MainPage = () => {
 
   return (
     <>
+      <div>{<Navigation />}</div>
       <div>
-        <Navigation />
+        <SearchBar />
       </div>
-      <SearchBar />
       {hasSearchResults ? (
         <SearchResultsPage />
       ) : (

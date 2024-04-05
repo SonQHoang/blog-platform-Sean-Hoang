@@ -26,8 +26,18 @@ const DeletePostModal = ({ isOpen, onClose, onConfirm }) => {
         <span className="close-button" onClick={onClose}></span>
         <h2>Delete Confirmation</h2>
         <p>Are you sure you want to delete this post?</p>
-        <button onClick={onConfirm}>Delete</button>
-        <button onClick={onClose}>Cancel</button>
+        <div className="delete-modal-button-container">
+          <div>
+            <button className="delete-modal-button" onClick={onConfirm}>
+              Delete
+            </button>
+          </div>
+          <div>
+            <button className="delete-cancel-button" onClick={onClose}>
+              Cancel
+            </button>
+          </div>
+        </div>
       </div>
     </div>
   )

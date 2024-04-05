@@ -1,3 +1,39 @@
+.top-posts-header {
+  /* border: 2px solid green; */
+  display: flex;
+  margin-left: 30px;
+  font-weight: normal;
+}
+
+.top-post-container {
+  /* border: 2px solid purple; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
 .single-post-container {
-  border: 2px solid blue;
+  border: 2px solid purple;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.top-post-image {
+  border: 2px solid red;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.top-post-content {
+  border: 2px solid green;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }

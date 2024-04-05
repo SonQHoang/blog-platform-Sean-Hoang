@@ -1,7 +1,7 @@
 .modal {
   display: none;
   position: fixed;
-  z-index: 1;
+  z-index: 2;
   left: 0;
   top: 0;
   width: 100%;
@@ -21,8 +21,32 @@
   padding: 20px;
   border: 1px solid #888;
   width: 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
+.delete-modal-button-container {
+  /* border: 2px solid blue; */
+  display: flex;
+  justify-content: space-between;
+  width: 250px;
+}
+.delete-modal-button {
+  background-color: orangered;
+  color: white;
+  border-radius: 20px;
+  padding: 5px;
+  width: 100px;
+}
+
+.delete-cancel-button {
+  border-radius: 20px;
+  background-color: white;
+  padding: 5px;
+  width: 100px;
+}
 .close-button {
   color: #aaa;
   float: right;

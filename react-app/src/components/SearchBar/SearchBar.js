@@ -16,25 +16,27 @@ const SearchBar = () => {
   }
 
   return (
-    <form onSubmit={handleSearch} className="search-bar-form">
-      <select
-        value={filter}
-        onChange={(e) => setFilter(e.target.value)}
-        className="search-filter-select"
-      >
-        <option value="all">All</option>
-        <option value="title">Title</option>
-        <option value="content">Content</option>
-        <option value="tags">Tags</option>
-      </select>
-      <input
-        type="text"
-        placeholder="Search posts..."
-        value={query}
-        onChange={(e) => setQuery(e.target.value)}
-      />
-      <button type="submit">Search</button>
-    </form>
+    <div className="search-bar-container">
+      <form onSubmit={handleSearch} className="search-bar-form">
+        <select
+          value={filter}
+          onChange={(e) => setFilter(e.target.value)}
+          className="search-filter-select"
+        >
+          <option value="all">All</option>
+          <option value="title">Title</option>
+          <option value="content">Content</option>
+          <option value="tags">Tags</option>
+        </select>
+        <input
+          type="text"
+          placeholder="Search Posts"
+          value={query}
+          onChange={(e) => setQuery(e.target.value)}
+        />
+        {/* <button type="submit">Search</button> */}
+      </form>
+    </div>
   )
 }
 
