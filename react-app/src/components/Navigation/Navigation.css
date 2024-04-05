@@ -37,7 +37,6 @@ body {
   margin: auto;
   z-index: 100;
   background-color: white;
-  position: fixed;
 }
 
 .access-container {

@@ -1,10 +1,10 @@
 import React, { useEffect } from "react"
 import { useSelector, useDispatch } from "react-redux"
-import "./PostDetails.css"
 import { getPostById } from "../../store/posts"
 import { useParams } from "react-router-dom"
 import PostComments from "../PostComments/PostComments"
 import PostLikes from "../PostLikes/PostLikes"
+import "./PostDetails.css"
 
 const PostDetails = () => {
   const { postId } = useParams()
@@ -21,9 +21,9 @@ const PostDetails = () => {
   }
 
   return (
-    <>
-      <section className="post-details-container">
-        <div className="post-details-container">
+    <div className="post-details-container">
+      <section>
+        <div>
           <div>
             <h1>{post.title}</h1>
           </div>
@@ -38,7 +38,7 @@ const PostDetails = () => {
           <PostComments props={postId} />
         </div>
       </section>
-    </>
+    </div>
   )
 }
 

@@ -41,7 +41,7 @@ const PostComments = () => {
 
   return (
     <>
-      <div>
+      <div className="post-comments-container">
         <div className="post-comments-header">
           <h2>Comments</h2>
         </div>

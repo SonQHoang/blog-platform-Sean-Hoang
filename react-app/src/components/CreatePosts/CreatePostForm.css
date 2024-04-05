@@ -1,0 +1,77 @@
+.create-post-form-container {
+  padding: 15px;
+  max-width: 400px;
+  min-height: 40vh;
+  width: 100vw;
+  background-color: #ffffff;
+  border: 1px solid;
+  border-color: rgb(238, 239, 242);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.update-create-form-content-container {
+  /* border: 2px solid aquamarine; */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100%;
+}
+
+.create-post-title-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 55%;
+  margin-top: 20px;
+}
+
+.create-post-title-label > input {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 55%;
+  margin-top: 10px;
+}
+
+.create-post-content-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 82%;
+  margin-top: 10px;
+}
+
+.create-post-content-label > textarea {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 80%;
+  margin-top: 10px;
+}
+
+.create-post-tag-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 68%;
+  margin-top: 10px;
+}
+
+.add-tag-button {
+  margin-top: 10px;
+}
+
+.create-post-form-button {
+  background-color: orangered;
+  color: white;
+  border-radius: 20px;
+  padding: 5px;
+  width: 100px;
+  margin-top: 10px;
+}

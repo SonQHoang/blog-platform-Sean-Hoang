@@ -55,46 +55,62 @@ const UpdatePostForm = () => {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <label>
-        Title:
-        <input
-          type="text"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-        ></input>
-      </label>
-      <label>
-        Content:
-        <textarea
-          value={content}
-          type="text"
-          onChange={(e) => setContent(e.target.value)}
-        ></textarea>
-      </label>
-      <label>
-        Tags:
-        <input
-          type="text"
-          value={tagInput}
-          onChange={(e) => setTagInput(e.target.value)}
-          onKeyDown={(e) => e.key === "Enter" && handleAddTag()}
-        />
-        <button type="button" onClick={handleAddTag}>
-          Add Tag
+    <form className="update-post-form-container" onSubmit={handleSubmit}>
+      <div className="update-post-form-content-container">
+        <h2>Update Your Post</h2>
+        <div className="post-title-container">
+          <label className="post-title-label">
+            Title:
+            <input
+              type="text"
+              value={title}
+              onChange={(e) => setTitle(e.target.value)}
+            ></input>
+          </label>
+        </div>
+        <label className="post-content-label">
+          Content:
+          <textarea
+            value={content}
+            type="text"
+            onChange={(e) => setContent(e.target.value)}
+          ></textarea>
+        </label>
+        <label className="post-tag-label">
+          Tags:
+          <input
+            type="text"
+            value={tagInput}
+            onChange={(e) => setTagInput(e.target.value)}
+            onKeyDown={(e) => e.key === "Enter" && handleAddTag()}
+            className="tag-input"
+          />
+          <button
+            className="add-tag-button"
+            type="button"
+            onClick={handleAddTag}
+          >
+            Add Tag
+          </button>
+        </label>
+        <div className="tags-container">
+          {tags.map((tag, index) => (
+            <div key={index} className="tag-item">
+              {tag}
+              <button
+                type="button"
+                className="remove-tag-button"
+                onClick={() => handleRemoveTag(tag)}
+              >
+                Remove
+              </button>
+            </div>
+          ))}
+        </div>
+        <button className="update-post-form-button" type="submit">
+          Update Post
         </button>
-      </label>
-      <div className="tags-container">
-        {tags.map((tag, index) => (
-          <div key={index} className="tag-item">
-            {tag}
-            <button type="button" onClick={() => handleRemoveTag(tag)}>
-              Remove
-            </button>
-          </div>
-        ))}
       </div>
-      <button type="submit">Update Post</button>
     </form>
   )
 }
