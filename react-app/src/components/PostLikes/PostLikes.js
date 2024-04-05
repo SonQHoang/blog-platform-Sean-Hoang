@@ -1,9 +1,8 @@
 import React, { useState, useEffect } from "react"
-import { useDispatch, useSelector } from "react-redux"
+import { useSelector } from "react-redux"
 import "./PostLikes.css"
 
 const PostLikes = ({ postId }) => {
-  const dispatch = useDispatch()
   const sessionUser = useSelector((state) => state.session.user)
   const [isLiked, setIsLiked] = useState(false)
   const [likeCount, setLikeCount] = useState(0)
@@ -24,7 +23,7 @@ const PostLikes = ({ postId }) => {
   ) : null
 
   return (
-    <div>
+    <div className="likes-container">
       <div className="post-likes-counter-container">
         <p>Likes: {likeCount} </p>
       </div>
