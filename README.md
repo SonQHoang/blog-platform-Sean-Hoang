@@ -1,6 +1,6 @@
-# Getting Started
+# Getting Started with setting up the Flask Backend
 
-1. Instlal dependencies
+1. Install dependencies
 
  ```
   pipenv install -r requirements.txt
@@ -15,4 +15,13 @@
    flask run
    ```
 
-To run the React App in development, checkout the README inside the react-app directory.
+# Setting up the React Frontend
+
+1. Install dependencies
+2. Navigate to the react-app directory and run the start command
+   
+```
+npm start
+```
+
+
