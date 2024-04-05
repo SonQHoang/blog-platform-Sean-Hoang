@@ -12,6 +12,7 @@ const Posts = () => {
   const history = useHistory()
   const sessionUser = useSelector((state) => state.session.user)
   const posts = Object.values(useSelector((state) => state.posts.allPosts))
+  console.log("what does posts look like..===>", posts)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [postToDelete, setPostToDelete] = useState(null)
 
@@ -36,6 +37,12 @@ const Posts = () => {
     closeModal()
   }
 
+  const summarizeContent = (content, maxLength = 250) => {
+    return content.length > maxLength
+      ? content.substring(0, maxLength) + "..."
+      : content
+  }
+
   return (
     <div className="main-posts-container">
       {/* <div className="featured-post">
@@ -55,7 +62,7 @@ const Posts = () => {
                   year: "numeric",
                 })}`}</p>
                 <div className="top-post-content-content">
-                  <p>{`${post.content}`}</p>
+                  <p>{summarizeContent(post.content)}</p>
                   <button
                     onClick={() => {
                       history.push(`/posts/${post.id}`)
