@@ -1,7 +1,7 @@
 import React, { useEffect } from "react"
 import "./DeletePostModal.css"
 
-const DeletePostModal = ({ isOpen, onClose, onConfirm }) => {
+const DeletePostModal = ({ isOpen, onClose, onConfirm, itemToDelete }) => {
   useEffect(() => {
     const handleOutsideClick = (e) => {
       const modalContent = document.querySelector(".modal-content")
@@ -20,12 +20,17 @@ const DeletePostModal = ({ isOpen, onClose, onConfirm }) => {
   if (!isOpen) return null
   const modalClassName = isOpen ? "modal modal-open" : "modal"
 
+  const confirmationMessage =
+    itemToDelete === "post"
+      ? "Are you sure you want to delete this post?"
+      : "Are you sure you want to delete this comment?"
+
   return (
     <div className={modalClassName}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
         <span className="close-button" onClick={onClose}></span>
         <h2>Delete Confirmation</h2>
-        <p>Are you sure you want to delete this post?</p>
+        <p>{confirmationMessage}</p>
         <div className="delete-modal-button-container">
           <div>
             <button className="delete-modal-button" onClick={onConfirm}>

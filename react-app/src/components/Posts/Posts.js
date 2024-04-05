@@ -12,7 +12,6 @@ const Posts = () => {
   const history = useHistory()
   const sessionUser = useSelector((state) => state.session.user)
   const posts = Object.values(useSelector((state) => state.posts.allPosts))
-  console.log("what does posts look like..===>", posts)
   const [isModalOpen, setIsModalOpen] = useState(false)
   const [postToDelete, setPostToDelete] = useState(null)
 
@@ -105,6 +104,7 @@ const Posts = () => {
           isOpen={isModalOpen}
           onClose={closeModal}
           onConfirm={handleDeleteConfirm}
+          itemToDelete="post"
         />
       </div>
     </div>

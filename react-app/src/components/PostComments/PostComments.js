@@ -2,8 +2,10 @@ import React, { useEffect, useState } from "react"
 import { useSelector, useDispatch } from "react-redux"
 import { useHistory, useParams } from "react-router-dom"
 import CommentsModal from "../CommentsModal/CommentsModal"
+import DeletePostModal from "../DeleteModal/DeletePostModal"
 import { getComments } from "../../store/postcomments"
 import { postComment } from "../../store/postcomments"
+import { deleteComment } from "../../store/postcomments"
 import "./PostComments.css"
 
 const PostComments = () => {
@@ -11,32 +13,47 @@ const PostComments = () => {
   const dispatch = useDispatch()
   const history = useHistory()
   const sessionUser = useSelector((state) => state.session.user)
-  const [isModalOpen, setIsModalOpen] = useState(false)
-  const [commentToEdit, setCommentToEdit] = useState(null)
+  const comments = useSelector((state) => state.postComments.comments)
+
+  const [isCommentsModalOpen, setIsCommentsModalOpen] = useState(false)
+  const [isDeleteModalOpen, setIsDeleteModalOpen] = useState(false)
+  const [commentToDelete, setCommentToDelete] = useState(null)
 
   useEffect(() => {
     dispatch(getComments(postId))
   }, [dispatch])
 
-  const comments = useSelector((state) => state.postComments.comments)
-
-  const openModal = (post) => {
-    setCommentToEdit(post)
-    setIsModalOpen(true)
+  const openCommentsModal = () => {
+    setIsCommentsModalOpen(true)
   }
 
-  const closeModal = () => {
-    setIsModalOpen(false)
+  const closeCommentsModal = () => {
+    setIsCommentsModalOpen(false)
   }
 
-  const handleCommentConfirm = () => {
-    if (commentToEdit) {
-      dispatch(postComment(commentToEdit.id)).then(() =>
-        dispatch(getComments())
-      )
-      history.push("/")
+  const openDeleteModal = (comment) => {
+    setCommentToDelete(comment)
+    setIsDeleteModalOpen(true)
+  }
+
+  const closeDeleteModal = () => {
+    setIsDeleteModalOpen(false)
+  }
+
+  const handleDeleteConfirm = () => {
+    if (commentToDelete) {
+      dispatch(deleteComment(commentToDelete.id)).then(() => {
+        dispatch(getComments(postId))
+        closeDeleteModal()
+      })
     }
-    closeModal()
+  }
+
+  const handleCommentSubmit = (commentText) => {
+    dispatch(postComment({ postId, comment: commentText })).then(() => {
+      dispatch(getComments(postId))
+      closeCommentsModal()
+    })
   }
 
   return (
@@ -51,7 +68,7 @@ const PostComments = () => {
             <button
               onClick={(e) => {
                 e.stopPropagation()
-                openModal()
+                openCommentsModal()
               }}
             >
               Post a Comment
@@ -69,15 +86,27 @@ const PostComments = () => {
                 year: "numeric",
               })}`}</p>
               <p>Comment: {comment.body}</p>
+              {sessionUser && sessionUser.id === comment.user_id && (
+                <button onClick={() => openDeleteModal(comment)}>
+                  Delete comment
+                </button>
+              )}
             </div>
           ))}
         </div>
       </div>
 
       <CommentsModal
-        isOpen={isModalOpen}
-        onClose={closeModal}
-        onConfirm={handleCommentConfirm}
+        isOpen={isCommentsModalOpen}
+        onClose={closeCommentsModal}
+        onConfirm={handleCommentSubmit}
+      />
+
+      <DeletePostModal
+        isOpen={isDeleteModalOpen}
+        onClose={closeDeleteModal}
+        onConfirm={handleDeleteConfirm}
+        itemToDelete="comment"
       />
     </>
   )

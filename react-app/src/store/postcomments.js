@@ -1,5 +1,6 @@
 const GET_POST_COMMENTS = "posts/getComments"
 const POST_COMMENTS = "posts/new"
+const DELETE_POST_COMMENTS = "posts/deleteComments"
 
 const acPostComment = (postComment) => {
   return {
@@ -11,6 +12,13 @@ const acPostComment = (postComment) => {
 const acGetPostComment = (postComment) => {
   return {
     type: GET_POST_COMMENTS,
+    payload: postComment,
+  }
+}
+
+const acDeleteComment = (postComment) => {
+  return {
+    type: DELETE_POST_COMMENTS,
     payload: postComment,
   }
 }
@@ -53,6 +61,27 @@ export const getComments = (postId) => async (dispatch) => {
   }
 }
 
+export const deleteComment = (commentId) => async (dispatch) => {
+  try {
+    const response = await fetch(`/api/comments/${commentId}/delete`, {
+      method: "DELETE",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    })
+    if (response.ok) {
+      const data = await response.json()
+      dispatch(acDeleteComment(data))
+    } else {
+      console.error(
+        "There was an error in deleting your comment:",
+        response.status
+      )
+    }
+  } catch (error) {
+    console.error(error)
+  }
+}
 const initialState = {
   comments: [],
 }
