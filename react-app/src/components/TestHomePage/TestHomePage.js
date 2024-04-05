@@ -1,23 +1,21 @@
-import React, { useEffect, useRef } from "react"
+import React from "react"
 import { useSelector } from "react-redux"
 import Navigation from "../Navigation"
 import Posts from "../Posts/Posts"
 import SearchResultsPage from "../SearchResultsPage/SearchResultsPage"
-import "./LandingPage.css"
+import "./TestHomePage.css"
 
-const MainPage = () => {
+const TestHomePage = () => {
   const { results = [] } = useSelector(
     (state) => state.posts.searchResults || {}
   )
   const hasSearchResults = results.length > 0
-
   return (
     <>
-      <Navigation />
-      <div className="main-posts-container">
-        <Posts />
+      <div>
+        <Navigation />
       </div>
-      {/* <div className="main-content">
+      <div className="main-content">
         {hasSearchResults ? (
           <SearchResultsPage />
         ) : (
@@ -25,9 +23,9 @@ const MainPage = () => {
             <Posts />
           </div>
         )}
-      </div> */}
+      </div>
     </>
   )
 }
 
-export default MainPage
+export default TestHomePage

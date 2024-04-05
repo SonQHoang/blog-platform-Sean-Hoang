@@ -61,7 +61,13 @@ const PostComments = () => {
           {comments.map((comment) => (
             <div key={comment.id}>
               <p>By: {comment.author}</p>
-              <p>Date: {comment.date_created}</p>
+              <p>{`Date Created: ${new Date(
+                comment.date_created
+              ).toLocaleDateString("en-US", {
+                month: "long",
+                day: "numeric",
+                year: "numeric",
+              })}`}</p>
               <p>Comment: {comment.body}</p>
             </div>
           ))}

@@ -37,73 +37,70 @@ const Posts = () => {
   }
 
   return (
-    <>
-      <div className="main-posts-container">
-        {/* Conditional rendering. Create New Post button only displays if the user is logged in */}
-        <div>
-          {sessionUser !== null ? (
-            <NavLink exact to="/posts/new">
-              <button>Create a New Post</button>
-            </NavLink>
-          ) : (
-            ""
-          )}
-        </div>
-        <div className="featured-post">
-          <FeaturedPosts />
-        </div>
-        <div>
-          <div className="top-posts-container">
-            <h2 className="top-posts-header">Top Posts</h2>
-          </div>
-          {posts.map((post) => (
-            <div
-              key={post.id}
-              className="single-post-container"
-              onClick={() => {
-                history.push(`/posts/${post.id}`)
-              }}
-            >
-              <div className="top-post-container">
-                <div className="top-post-image">Placeholder</div>
-                <div className="top-post-content">
-                  <p>{`${post.title}`}</p>
-                  <p>{`Published by ${post.author}`}</p>
+    <div className="main-posts-container">
+      {/* <div className="featured-post">
+        <FeaturedPosts />
+      </div> */}
+      <div className="top-posts-container">
+        {posts.map((post) => (
+          <div key={post.id} className="single-post-container">
+            <div className="top-post-container">
+              <div className="top-post-content">
+                <p className="top-post-content-title">{`${post.title}`}</p>
+                <p className="top-post-content-author">{`Published by ${
+                  post.author
+                } on ${new Date(post.date_created).toLocaleDateString("en-US", {
+                  month: "long",
+                  day: "numeric",
+                  year: "numeric",
+                })}`}</p>
+                <div className="top-post-content-content">
                   <p>{`${post.content}`}</p>
-                  <p>{`Date Created: ${post.date_created}`}</p>
+                  <button
+                    onClick={() => {
+                      history.push(`/posts/${post.id}`)
+                    }}
+                    className="keep-reading-button"
+                  >
+                    Keep Reading
+                  </button>
                 </div>
               </div>
-
-              <div>
-                {sessionUser && sessionUser.id === post.user_id && (
-                  <NavLink exact to={`/posts/${post.id}/update`}>
-                    <button onClick={(e) => e.stopPropagation()}>
-                      Update Post
-                    </button>
-                  </NavLink>
-                )}
-
-                {sessionUser && sessionUser.id === post.user_id && (
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation()
-                      openModal(post)
-                    }}
-                  >
-                    Delete Post
-                  </button>
-                )}
-              </div>
             </div>
-          ))}
-        </div>
+
+            <div className="post-update-delete-buttons">
+              {sessionUser && sessionUser.id === post.user_id && (
+                <NavLink exact to={`/posts/${post.id}/update`}>
+                  <button
+                    className="update-post-button"
+                    onClick={(e) => e.stopPropagation()}
+                  >
+                    Update Post
+                  </button>
+                </NavLink>
+              )}
+
+              {sessionUser && sessionUser.id === post.user_id && (
+                <button
+                  className="delete-post-button"
+                  onClick={(e) => {
+                    e.stopPropagation()
+                    openModal(post)
+                  }}
+                >
+                  Delete Post
+                </button>
+              )}
+            </div>
+          </div>
+        ))}
+        <DeletePostModal
+          isOpen={isModalOpen}
+          onClose={closeModal}
+          onConfirm={handleDeleteConfirm}
+        />
       </div>
-      <DeletePostModal
-        isOpen={isModalOpen}
-        onClose={closeModal}
-        onConfirm={handleDeleteConfirm}
-      />
-    </>
+    </div>
   )
 }
 

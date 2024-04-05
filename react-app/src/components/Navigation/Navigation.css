@@ -30,20 +30,40 @@ body {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  overflow: visible;
   padding: 22px 0px;
   height: 36px;
   width: 100%;
   margin: auto;
   z-index: 100;
   background-color: white;
+  position: fixed;
+  top: 0;
+  left: 0;
 }
 
 .access-container {
   display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  text-decoration: none;
+  gap: 10px;
+}
+
+.create-post-button {
+  display: flex;
   justify-content: center;
-  padding-left: 64px;
-  padding-right: 64px;
+  align-items: center;
+  font-size: 20px;
+  font-weight: lighter;
+  cursor: pointer;
+  transition: color 0.1s ease 0s;
+  margin-right: 15px;
+  color: black;
+}
+
+.access-container a {
+  text-decoration: none;
+  color: inherit;
 }
 
 .login-button {

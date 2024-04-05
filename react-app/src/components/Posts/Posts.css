@@ -1,39 +1,84 @@
-.top-posts-header {
-  /* border: 2px solid green; */
+.main-posts-container {
+  margin-top: 69px;
   display: flex;
-  margin-left: 30px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-height: calc(100vh - 69px);
+}
+
+.top-posts-header {
+  display: flex;
+  justify-content: center;
+  width: 100%;
   font-weight: normal;
 }
 
 .top-post-container {
-  /* border: 2px solid purple; */
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 100%;
 }
 
 .single-post-container {
-  border: 2px solid purple;
+  border: 2px solid black;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: flex-end;
-}
-
-.top-post-image {
-  border: 2px solid red;
-  height: 100%;
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  justify-content: center;
+  align-items: left;
+  width: 100%;
+  padding-bottom: 10px;
 }
 
 .top-post-content {
-  border: 2px solid green;
+  /* border: 2px solid green; */
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+}
+
+.top-post-content-title {
+  /* border: 2px solid blue; */
+  font-weight: bold;
+  font-size: 25px;
+}
+
+.top-post-content-author {
+  /* border: 2px solid red; */
+  margin: 0;
+}
+.top-post-content-content {
+  /* border: 2px solid green; */
+  width: 50%;
+  font-size: 18px;
+  margin-top: 20px;
+}
+
+.update-post-button {
+  background-color: orangered;
+  color: white;
+  border-radius: 20px;
+  margin-right: 25px;
+  padding: 10px;
+}
+
+.delete-post-button {
+  color: black;
+  background-color: white;
+  border-radius: 20px;
+  margin-right: 25px;
+}
+
+.post-update-delete-buttons {
+  /* border: 2px solid green; */
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.keep-reading-button {
+  background-color: rgb(2, 163, 222);
+  color: white;
+  border-width: 1px;
+  padding: 10px;
+  font-size: 15px;
 }
