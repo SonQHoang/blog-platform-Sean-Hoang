@@ -30,5 +30,6 @@ npm start
 
 2. One bug that I'm aware of, that I wasn't able to patch was that as you create more posts or comments, the content that is visible gets continually pushed up and subsequently buried underneath the header, which has css position styling of "fixed" in order to keep it at the top of the page.
 > My understanding of this fix would be to determine the space that the header is taking and then to add the same space through "padding-top" to offset the content below so that it doesn't get buried but for some reason despite calculating this, the content would continually be pushed underneathe the fixed header. Even through setting up a dynamic calculation with 'height: calc(100vh - header_space) did not resolve the issue.
+
 > A short-term I would have implemented would have been to have pagination and limit the results of the posts to just 3, which is about the amount that can fit inside of the viewport before this issue begins to show.
 
