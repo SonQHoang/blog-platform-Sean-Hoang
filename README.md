@@ -24,6 +24,14 @@
 npm start
 ```
 
+# Setting up the database
+
+1. Run the following command in order to set up the database with the existing migration files. 
+   
+```
+flask db upgrade
+```
+
 # Technical Considerations / Challenges
 
 1. For the likes counter, I chose to use local storage to persist whether the post has been liked or the like has been removed due to time constraints. I believe that the more ideal solution would have been to use Redux to manage the state so that the likes counter and its value would persist regardless of user changes or device switches.
